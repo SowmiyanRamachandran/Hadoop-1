@@ -1,0 +1,55 @@
+What is HDFS?
+
+Hadoop File System was developed using distributed file system design.
+It is run on commodity hardware. Unlike other distributed systems, HDFS is highly fault-tolerant and designed using low-cost hardware.
+HDFS holds very large amount of data and provides easier access.
+To store such huge data, the files are stored across multiple machines.
+These files are stored in redundant fashion to rescue the system from possible data losses in case of failure.
+HDFS also makes applications available to parallel processing.
+
+HDFS Cluster:
+
+A Hadoop cluster is a special type of computational cluster designed,specifically for storing and analyzing huge amounts of unstructured
+data in a distributed computing environment.Such clusters run Hadoop's open source distributed processing software on low-cost commodity
+computers.Typically one machine in the cluster is designated as the NameNode and another machine the as JobTracker,these are the masters.
+
+The rest of the machines in the cluster act as both DataNode and TaskTracker(Hadoop 1.x),these are the slaves.
+Hadoop clusters are often referred to as "shared nothing" systems because the only thing that is shared between nodes is the network that
+connects them.Hadoop clusters are known for boosting the speed of data analysis applications.
+
+They also are highly scalable: If a cluster's processing power is overwhelmed by growing volumes of data,
+additional cluster nodes can be added to increase throughput.Hadoop clusters also are highly resistant to failure because each piece
+of data is copied onto other cluster nodes, which ensures that the data is not lost if one node fails.
+
+Example:As of early 2013, Facebook was recognized as having the largest Hadoop cluster in the world.
+Other prominent users include Google, Yahoo and IBM.
+
+HDFS Blocks :
+
+When you store a file in HDFS, the system breaks it down into a set of individual blocks and stores these blocks in various slave nodes
+in the Hadoop cluster. This is an entirely normal thing to do, as all file systems break files down into blocks before storing them to disk.
+HDFS has no idea (and doesn’t care) what’s stored inside the file, so raw files are not split in accordance with rules that we humans would
+understand. Humans, for example, would want record boundaries — the lines showing where a record begins and ends — to be respected.
+
+HDFS is often blissfully unaware that the final record in one block may be only a partial record, with the rest of its content shunted off
+to the following block. HDFS only wants to make sure that files are split into evenly sized blocks that match the predefined block size
+for the Hadoop instance (unless a custom value was entered for the file being stored). In the preceding figure, that block size is 128MB.
+The concept of storing a file as a collection of blocks is entirely consistent with how file systems normally work. But what’s different
+about HDFS is the scale. A typical block size that you’d see in a file system under Linux is 4KB, whereas a typical block size in Hadoop
+is 128MB. This value is configurable, and it can be customized, as both a new system default and a custom value for individual files.
+
+Hadoop was designed to store data at the petabyte scale, where any potential limitations to scaling out are minimized. The high block size
+is a direct consequence of this need to store data on a massive scale.
+
+First of all, every data block stored in HDFS has its own metadata and needs to be tracked by a central server so that applications
+needing to access a specific file can be directed to wherever all the file’s blocks are stored. If the block size were in the kilobyte
+range, even modest volumes of data in the terabyte scale would overwhelm the metadata server with too many blocks to track.
+
+Second, HDFS is designed to enable high throughput so that the parallel processing of these large data sets happens as quickly as
+possible. The key to Hadoop’s scalability on the data processing side is, and always will be, parallelism — the ability to process the
+individual blocks of these large files in parallel.
+
+To enable efficient processing, a balance needs to be struck. On one hand, the block size needs to be large enough to warrant the
+resources dedicated to an individual unit of data processing (for instance, a map or reduce task). On the other hand, the block size
+can’t be so large that the system is waiting a very long time for one last unit of data processing to finish its work.
+These two considerations obviously depend on the kinds of work being done on the data blocks.
